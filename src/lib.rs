@@ -20,3 +20,29 @@ pub fn run(config: Config) -> Result<(), Box<dyn Error>>{
     println!("С текстом: \n{}", contents);
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn one_result() {
+        let query = "duct";
+        let contents = "\
+        \
+        Rust:\
+        safe, fast, productive.\
+        Pick three.";
+
+        assert_eq!(vec!["save, fast, productive."], search(query, contents));
+    }
+    pub fn search<'a>(query: &str, contents: &'a str) -> Vec<&'a str> {
+        let mut result = Vec::new();
+
+        for line in contents.lines() {
+            if line.contains(query) {
+                result.push(line);
+            }
+        }
+        result
+    }
+}
